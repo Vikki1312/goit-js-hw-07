@@ -38,4 +38,29 @@ function onImgCardsClick(evt) {
     return;
   }
   console.log(evt.target);
+
+  const imageSrc = evt.target.dataset.source;
+
+  const instance = basicLightbox.create(
+    `
+    <img src="${imageSrc}" width="800" height="600">
+`,
+    {
+      onShow: () => {
+        window.addEventListener("keydown", onEscapeClick);
+        console.log("onShow", instance);
+      },
+      onClose: () => {
+        window.removeEventListener("keydown", onEscapeClick);
+        console.log("onClose", instance);
+      },
+    }
+  );
+  instance.show();
+
+  function onEscapeClick(evt) {
+    if (evt.code === "Escape") {
+      instance.close();
+    }
+  }
 }
